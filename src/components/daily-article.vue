@@ -7,18 +7,18 @@
       <span>评论({{comments.length}})</span>
       <div class="daily-comment" v-for="comment in comments">
         <div class="daily-comment-avatar">
-          <img :src="commemt.avatar" alt="">
+          <img :src="comment.avatar" alt="">
         </div>
 
         <div class="daily-comment-content">
           <div class="daily-comment-name">
-            {{commemt.name}}
+            {{comment.name}}
           </div>
-          <div class="daily-comment-time" v-time="commemt.time">
+          <div class="daily-comment-time" v-time="comment.time">
 
           </div>
           <div class="daily-comment-text">
-            {{commemt.content}}
+            {{comment.content}}
           </div>
         </div>
       </div>
@@ -53,6 +53,7 @@ export default {
         );
         this.data = res;
         window.scrollTo(0, 0);
+        this.getComments();
       });
     },
     getComments() {
