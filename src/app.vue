@@ -18,35 +18,40 @@
         </div>
 
 
-        <div class="daily-list">
+        <div class="daily-list" ref="list">
           <template v-if="type==='recommend'">
             <div v-for="list in recommendList">
               <div class="div-date">{{formatDay(list.date)}}</div>
               <Item
               v-for="item in list.stories"
               :data="item"
-              :key="item.id"></Item>
+              :key="item.id"
+              @click.native="handleClick(item.id)"></Item>
             </div>
           </template>
 
           <template v-if="type==='daily'">
-            <Item
-              v-for="item in list.stories"
+              <Item
+              v-for="item in list"
               :data="item"
-              :key="item.id"></Item>
+              :key="item.id"
+              @click.native="handleClick(item.id)"></Item>
           </template>
         </div>
+        <daily-article :id="articleId"></daily-article>
     </div>
 </template>
 <script>
 import $ from "./lib/util";
 import Item from "./components/item.vue";
+import dailyArticle from "./components/daily-article.vue";
 export default {
   components: {
-    Item
+    Item,dailyArticle
   },
   data() {
     return {
+      articleId:0,
       list: [],
       themes: [],
       showThemes: false,
@@ -58,6 +63,9 @@ export default {
     };
   },
   methods: {
+    handleClick(id){
+      this.articleId = id;
+    },
     getThemes() {
       $.ajax.get("themes").then(res => {
         this.themes = res.others;
@@ -102,6 +110,18 @@ export default {
   mounted() {
     this.getThemes();
     this.getRecommendList();
+    const $list = this.$refs.list;
+
+    $list.addEventListener('scroll',()=>{
+      if(this.type === 'daily' || this.isLoading) {
+        return;
+      }
+
+      if($list.scrollTop + document.body.clientHeight >= $list.scrollHeight){
+        this.dailyTime -= 86400000;
+        this.getRecommendList();
+      }
+    });
   }
 };
 </script>

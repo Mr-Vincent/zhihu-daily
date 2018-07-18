@@ -41,6 +41,7 @@ const imgServer = http.createServer((req, res) => {
             const contentType = response.headers['content-type'];
             res.setHeader('Content-Type', contentType);
             res.setHeader('Access-Control-Allow-Origin', '*');
+            // res.setHeader('Referer','https://zhuanlan.zhihu.com/p/39822262');
             res.end(body);
         }
     }
