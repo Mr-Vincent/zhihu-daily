@@ -29,3 +29,6 @@ Zhihu Daily implementation via Vue for practise
 * 接口跨域问题。不能用这种单独开一个代理服务来解决，可以使用插件来完成
 * 样式不是很好看
 * 工程打包
+
+## 运行截图
+![img](./imgs/img.png)
